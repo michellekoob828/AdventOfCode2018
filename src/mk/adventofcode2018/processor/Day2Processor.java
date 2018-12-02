@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class Day1Processor {
+public class Day2Processor {
 	
 	public static final String FILE_NAME = "src/InputFile.txt";
 
