@@ -9,7 +9,7 @@ import java.util.List;
 
 public class Day1Processor {
 	
-	public static final String FILE_NAME = "src/InputFile.txt";
+	public static final String FILE_NAME = "src/InputFileDay1.txt";
 
 	public void process() throws FileNotFoundException {
 		
