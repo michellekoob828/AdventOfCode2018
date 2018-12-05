@@ -8,7 +8,7 @@ public class Day3Main {
 
 	public static void main(String[] args) throws FileNotFoundException {
 		Day3Processor day3 = new Day3Processor();
-		day3.process();
+		day3.processPart2();
 	}
 
 }

@@ -62,5 +62,87 @@ public class Day3Processor {
 		System.out.println("Result is: " + result.size());
 		
 	} 
-	
+
+	public void processPart2() throws FileNotFoundException {
+		FileReader fr = new FileReader(FILE_NAME); 
+		BufferedReader bufr = new BufferedReader(fr);
+		
+		Map<FabricPositionVO, Integer> fabricPositionMap = new HashMap<FabricPositionVO, Integer>();
+		
+		try {
+			String line = bufr.readLine();
+			
+			while(line != null){
+				int inchesFromLeft = Integer.parseInt(line.substring(line.indexOf(AT_SYMBOL)+2, line.indexOf(COMMA)));
+				int inchesFromTop = Integer.parseInt(line.substring(line.indexOf(COMMA)+1, line.indexOf(COLON)));
+				int width = Integer.parseInt(line.substring(line.indexOf(COLON)+2, line.indexOf(X)));
+				int height = Integer.parseInt(line.substring(line.indexOf(X)+1));
+				
+				for(int x = inchesFromLeft; x<=(inchesFromLeft+width-1); x++) {
+					for(int y = inchesFromTop; y<=(inchesFromTop+height-1); y++) {
+						FabricPositionVO position = new FabricPositionVO(x,y);
+						int positionCount = 0;
+						if(fabricPositionMap.containsKey(position)) {
+							positionCount = fabricPositionMap.get(position) + 1;
+							fabricPositionMap.remove(position);
+						} else {
+							positionCount = 1;
+						}
+						fabricPositionMap.put(position, positionCount);
+					}
+				}
+				
+				line = bufr.readLine(); 
+			}
+			bufr.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		FileReader fr2 = new FileReader(FILE_NAME); 
+		BufferedReader bufr2 = new BufferedReader(fr2);
+		
+		boolean isClaimFound = false;
+		
+		try {
+			String line = bufr2.readLine();
+			
+			while(line != null && !isClaimFound){
+				String claimNumber = line.substring(0, line.indexOf(SPACE));
+				int inchesFromLeft = Integer.parseInt(line.substring(line.indexOf(AT_SYMBOL)+2, line.indexOf(COMMA)));
+				int inchesFromTop = Integer.parseInt(line.substring(line.indexOf(COMMA)+1, line.indexOf(COLON)));
+				int width = Integer.parseInt(line.substring(line.indexOf(COLON)+2, line.indexOf(X)));
+				int height = Integer.parseInt(line.substring(line.indexOf(X)+1));
+				
+				boolean doesClaimOverlap = false;
+				
+				for(int x = inchesFromLeft; x<=(inchesFromLeft+width-1); x++) {
+					for(int y = inchesFromTop; y<=(inchesFromTop+height-1); y++) {
+						FabricPositionVO position = new FabricPositionVO(x,y);
+						int positionCount = fabricPositionMap.get(position);
+						
+						if(positionCount != 1) {
+							doesClaimOverlap = true;
+							break;
+						}
+					}
+					
+					if(doesClaimOverlap) {
+						break;
+					}
+				}
+				
+				if(!doesClaimOverlap) {
+					isClaimFound = true;
+					System.out.println("Found claim number: " + claimNumber + "!");
+				} else {
+					line = bufr2.readLine(); 
+				}
+			
+			}
+			bufr2.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }
